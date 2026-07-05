@@ -26,7 +26,7 @@ final class CityController {
     public CityController(ChatClient.Builder builder, Function<Request, Response> currentWeatherFunction) {
         this.chatClient = builder
                 .defaultSystem(SYSTEM_MESSAGE)
-                .defaultTools(spec -> spec.callbacks(constructToolCallback(currentWeatherFunction)))
+                .defaultTools(toolCallback(currentWeatherFunction))
                 .build();
     }
 
@@ -39,7 +39,7 @@ final class CityController {
                 .content();
     }
 
-    private @NonNull ToolCallback constructToolCallback(Function<Request, Response> currentWeatherFunction) {
+    private @NonNull ToolCallback toolCallback(Function<Request, Response> currentWeatherFunction) {
         return FunctionToolCallback
                 .builder("currentWeather", currentWeatherFunction)
                 .inputType(Request.class)
